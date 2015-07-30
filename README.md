@@ -1,0 +1,2 @@
+# XMPPDemo
+My XMPP demo
