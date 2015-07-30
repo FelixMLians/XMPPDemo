@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+
 @interface AppDelegate ()
 
 @end
@@ -42,4 +43,68 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark -
+
+- (BOOL)connect
+{
+    [self setupStream];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *userId = [defaults stringForKey:@"userid"];
+    NSString *pass = [defaults stringForKey:@"pass"];
+    NSString *server = [defaults stringForKey:@"server"];
+    
+    if (![self.xmppStream isDisconnected]) {
+        return YES;
+    }
+    
+    if (userId == nil || pass == nil) {
+        return NO;
+    }
+    
+    //设置用户
+    [self.xmppStream setMyJID:[XMPPJID jidWithString:userId]];
+    //设置服务器
+    [self.xmppStream setHostName:server];
+    //密码
+    password = pass;
+    
+    //连接服务器
+    NSError *error = nil;
+    if (![self.xmppStream connectWithTimeout:20.0 error:&error]) {
+        NSLog(@"cant connect %@", server);
+        return NO;
+    }
+    
+    return YES;
+    
+}
+
+- (void)disconnect
+{
+    [self goOffline];
+    [self.xmppStream disconnect];
+}
+
+- (void)setupStream
+{
+    self.xmppStream = [[XMPPStream alloc] init];
+    [self.xmppStream addDelegate:self delegateQueue:dispatch_get_current_queue()];
+    
+}
+
+- (void)goOnline
+{
+    XMPPPresence *presence = [XMPPPresence presence];
+    [self.xmppStream sendElement:presence];
+}
+
+- (void)goOffline
+{
+    XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+    [self.xmppStream sendElement:presence];
+}
+
+#pragma mark -
 @end

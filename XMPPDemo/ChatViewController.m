@@ -8,7 +8,12 @@
 
 #import "ChatViewController.h"
 
-@interface ChatViewController ()
+@interface ChatViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITextField *chatTextField;
+@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
+@property (copy, nonatomic) NSString *chatWithUser;
+@property (strong, nonatomic) NSMutableArray *messages;
 
 @end
 
@@ -16,22 +21,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.chatTableView.delegate = self;
+    self.chatTableView.dataSource = self;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 1;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.messages count];
 }
-*/
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier = @"msgCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+    }
+    
+    NSMutableDictionary *dict = [self.messages objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [dict objectForKey:@"msg"];
+    cell.detailTextLabel.text = [dict objectForKey:@"sender"];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    return cell;
+    
+}
+
+- (IBAction)sendMessage:(id)sender {
+}
 
 @end
