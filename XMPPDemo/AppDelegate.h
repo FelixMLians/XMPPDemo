@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "XMPP.h"
+#import "ChatDelegate.h"
+#import "MessageDelegate.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
@@ -17,6 +19,8 @@
 }
 
 @property (strong, nonatomic) XMPPStream *xmppStream;
+@property (nonatomic, weak) id<ChatDelegate> chatDelegate;
+@property (nonatomic, weak) id<MessageDelegate> messageDelegate;
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -9,7 +9,9 @@
 #import "AppDelegate.h"
 
 
-@interface AppDelegate ()
+@interface AppDelegate ()<XMPPStreamDelegate>
+
+
 
 @end
 
@@ -43,7 +45,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark -
+#pragma mark - public method
 
 - (BOOL)connect
 {
@@ -76,6 +78,7 @@
         NSLog(@"cant connect %@", server);
         return NO;
     }
+    [self goOnline];
     
     return YES;
     
@@ -106,5 +109,44 @@
     [self.xmppStream sendElement:presence];
 }
 
-#pragma mark -
+#pragma mark - XMPPStreamDelegate
+
+- (void)xmppStreamDidConnect:(XMPPStream *)sender
+{
+    isOpen = YES;
+    NSError *error = nil;
+    [self.xmppStream authenticateWithPassword:password error:&error];
+}
+
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    [self goOnline];
+}
+
+- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
+    NSLog(@"message：%@",message);
+    
+    NSString *msg = [[[message elementsForName:@"body"] objectAtIndex:0] stringValue];
+    NSString *from = [[message attributeForName:@"from"] stringValue];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:msg forKey:@"msg"];
+    [dict setObject:from forKey:@"sender"];
+    
+    [self.messageDelegate newMessageReceived:dict];
+}
+
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+    NSString *presenceType = [presence type];
+    NSString *userId = [[sender myJID] user];
+    NSString *presenceFromUser = [[presence from] user];
+    
+    if ([presenceFromUser isEqualToString:userId]) {
+        if ([presenceType isEqualToString:@"available"]) {
+            [self.chatDelegate newBuddyOnline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"yuanrongdeimac.local"]];
+        }
+        else if ([presenceType isEqualToString:@"unavailable"]) {
+            [self.chatDelegate buddyWentOffline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"yuanrongdeimac.local"]];
+        }
+    }
+}
 @end

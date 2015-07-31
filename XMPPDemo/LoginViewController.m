@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.serverTextField.text = @"yuanrongdeimac.local";
 }
 
 - (IBAction)login:(id)sender {

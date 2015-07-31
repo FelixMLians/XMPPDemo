@@ -10,4 +10,6 @@
 
 @interface ChatViewController : UIViewController
 
+@property (copy, nonatomic) NSString *chatWithUser;
+
 @end

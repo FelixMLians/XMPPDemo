@@ -497,6 +497,8 @@
 		62ED44151B6A21B800E459C1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		62ED44171B6A25F000E459C1 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		62ED44181B6A25F000E459C1 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		62FC5B241B6B0636009FC01E /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
+		62FC5B251B6B06A9009FC01E /* MessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -562,6 +564,8 @@
 				62ED44151B6A21B800E459C1 /* LoginViewController.m */,
 				62ED44171B6A25F000E459C1 /* ChatViewController.h */,
 				62ED44181B6A25F000E459C1 /* ChatViewController.m */,
+				62FC5B241B6B0636009FC01E /* ChatDelegate.h */,
+				62FC5B251B6B06A9009FC01E /* MessageDelegate.h */,
 				62ED3FDB1B6A134500E459C1 /* Main.storyboard */,
 				62ED3FDE1B6A134500E459C1 /* Images.xcassets */,
 				62ED3FE01B6A134500E459C1 /* LaunchScreen.xib */,
@@ -1943,6 +1947,7 @@
 				62ED3FF31B6A134500E459C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62ED3FF41B6A134500E459C1 /* Build configuration list for PBXNativeTarget "XMPPDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -1951,6 +1956,7 @@
 				62ED3FF61B6A134500E459C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
